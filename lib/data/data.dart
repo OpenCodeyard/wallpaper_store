@@ -57,5 +57,3 @@ List<CategoriesModel> getCategories(){
 
     return categories;
 }
-
-}
