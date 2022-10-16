@@ -1,11 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wallpaper_store/data/data.dart';
+import 'package:wallpaper_store/model/wallpaper_model.dart';
 import 'package:wallpaper_store/widgets/widget.dart';
 import '../model/categories_model.dart';
 import 'package:http/http.dart' as http;
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -15,18 +16,25 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<CategoriesModel> categories = [];
-
+  List<WallpaperModel> wallpapers = [];
 
   getTrendingWallpapers() async {
-    var response = await http.get(Uri.parse("https://api.pexels.com/v1/curated?per_page=15&page=1"
-    ),headers: {
-      "Authorization" : apiKey
-    });
+    var response = await http.get(
+        Uri.parse("https://api.pexels.com/v1/curated?per_page=15&page=1"),
+        headers: {"Authorization": apiKey});
     //if (kDebugMode)
     //{
-      //print(response.body.toString());
+    //print(response.body.toString());
     //}
-    Map<String, dynamic> jsondata = jsonDecode(response.body);
+    Map<String, dynamic> jsonData = jsonDecode(response.body);
+    jsonData["photos"].forEach((element) {
+      //print(element);
+      WallpaperModel wallpaperModel = WallpaperModel();
+      wallpaperModel = WallpaperModel.fromMap(element);
+      wallpapers.add(wallpaperModel);
+    });
+
+    setState(() {});
   }
 
   @override
@@ -36,7 +44,6 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +87,7 @@ class _HomeState extends State<Home> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
+                    //wallpapers[index].src.portrait;
                     return CategoriesTile(
                         title: categories[index].categoriesName,
                         imageUrl: categories[index].imageUrl);
