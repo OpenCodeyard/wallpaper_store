@@ -13,7 +13,7 @@ class WallpaperModel {
 
   factory WallpaperModel.fromMap(Map<String, dynamic> jsonData) {
     return WallpaperModel(
-        src: jsonData["src"],
+        src: SrcModel.fromMap(jsonData["src"]),
         photographer_url: jsonData["photographer_url"],
         photographer_id: jsonData["photographer_id"],
         photographer: jsonData["photographer"]);
@@ -21,14 +21,14 @@ class WallpaperModel {
 }
 
 class SrcModel {
-  String? original;
-  String? small;
-  String? portrait;
-  String? landscape;
-  String? medium;
+  String original;
+  String small;
+  String portrait;
+  String landscape;
+  String medium;
 
   SrcModel(
-      {this.original, this.small, this.portrait, this.landscape, this.medium});
+      {required this.original, required this.small, required this.portrait, required this.landscape, required this.medium});
 
   factory SrcModel.fromMap(Map<String, dynamic> jsonData) {
     return SrcModel(
